@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories | Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: #333;
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+
+        /* Classic subtle background */
+        .classic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            z-index: -1;
+        }
+
+        /* Subtle grid pattern */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+        }
+
+        /* Classic subtle accent shapes */
+        .accent-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.05);
+            z-index: -1;
+        }
+
+        .accent-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            right: -100px;
+        }
+
+        .accent-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            left: 10%;
+        }
+
+        .accent-3 {
+            width: 150px;
+            height: 150px;
+            top: 40%;
+            right: 5%;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            min-height: 80px;
+        }
+
+        .logo {
+            font-size: 1.7em;
+            font-weight: 600;
+            color: #6366f1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .logo i {
+            font-size: 1.4em;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 18px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.05em;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            transform: translateY(-3px);
+        }
+
+        .nav-links a i {
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .nav-links a:hover i {
+            transform: rotate(10deg) scale(1.2);
+        }
+
+        /* Main content */
+        main {
+            min-height: calc(100vh - 120px);
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Title styles */
+        h1 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        /* Summary cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            min-height: 120px;
+            cursor: pointer;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .summary-card.inprogress::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .summary-card.completed::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .summary-card.pending::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+        .summary-card i {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .summary-card h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .summary-card p {
+            margin: 0;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Subject section */
+        .subject-section {
+            margin-top: 40px;
+        }
+
+        .subject-column {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            height: 100%;
+        }
+
+        .column-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .column-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .column-header .badge {
+            margin-left: 12px;
+            padding: 6px 12px;
+            font-weight: 500;
+            border-radius: 30px;
+            color: white;
+        }
+
+        .badge-inprogress { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .badge-completed { background: linear-gradient(90deg, #10b981, #34d399); }
+        .badge-pending { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+        .subject-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid;
+        }
+
+        .subject-card.inprogress { border-color: #3b82f6; }
+        .subject-card.completed { border-color: #10b981; }
+        .subject-card.pending { border-color: #f59e0b; }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .subject-card h5 { 
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .subject-card p.category { 
+            color: #64748b; 
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .progress {
+            height: 12px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            overflow: visible;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: width 1.5s ease;
+        }
+
+        .progress-bar.inprogress { 
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+        .progress-bar.completed { 
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+        .progress-bar.pending { 
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+
+        .progress-value {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e293b;
+        }
+
+        .click-topics {
+            font-size: 0.85rem;
+            color: #6366f1;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .click-topics:hover {
+            color: #8b5cf6;
+            transform: translateX(5px);
+        }
+
+        /* Topic cards */
+        .topic-card {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateX(5px);
+        }
+
+        .topic-card.completed {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-left: 5px solid #10b981;
+        }
+
+        .topic-card.in-progress {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-left: 5px solid #3b82f6;
+        }
+
+        .topic-card.pending {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 5px solid #f59e0b;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: white;
+        }
+
+        .status-badge.completed {
+            background: #10b981;
+        }
+
+        .status-badge.in-progress {
+            background: #3b82f6;
+        }
+
+        .status-badge.pending {
+            background: #f59e0b;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 25px;
+        }
+
+        .modal-header h5 {
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 20px;
+                min-height: auto;
+            }
+            
+            .logo {
+                margin-bottom: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .nav-links a {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+            
+            .summary-cards { grid-template-columns: 1fr; }
+            h1 { font-size: 2rem; }
+            .subject-column { margin-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Classic subtle background -->
+    <div class="classic-bg"></div>
+    
+    <!-- Subtle grid pattern -->
+    <div class="grid-pattern"></div>
+    
+    <!-- Classic subtle accent shapes -->
+    <div class="accent-shape accent-1"></div>
+    <div class="accent-shape accent-2"></div>
+    <div class="accent-shape accent-3"></div>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-book-open"></i>
+            Study Planner
+        </div>
+        <nav class="nav-links">
+            <a href="home.html">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+            <a href="#categories">
+                <i class="fas fa-th-large"></i>
+                Categories
+            </a>
+            <a href="about.html">
+                <i class="fas fa-info-circle"></i>
+                About Us
+            </a>
+            <a href="history.html">
+                <i class="fas fa-history"></i>
+                History
+            </a>
+            <a href="landing.html">
+                <i class="fas fa-user"></i>
+                Logout
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h1>Manage Your Study by Categories</h1>
+            <p class="subtitle">Track your progress across all subjects</p>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card inprogress" data-filter="inprogress">
+                    <i class="bi bi-clock"></i>
+                    <div>
+                        <h2>5</h2>
+                        <p>In Progress</p>
+                    </div>
+                </div>
+                <div class="summary-card completed" data-filter="completed">
+                    <i class="bi bi-check-circle"></i>
+                    <div>
+                        <h2>2</h2>
+                        <p>Completed</p>
+                    </div>
+                </div>
+                <div class="summary-card pending" data-filter="pending">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <div>
+                        <h2>3</h2>
+                        <p>Pending</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject Columns -->
+            <div class="subject-section">
+                <div class="row">
+                    <!-- In Progress Column -->
+                    <div class="col-md-4">
+                        <div class="subject-column">
+                            <div class="column-header">
+                                <h3>In Progress</h3>
+                                <span class="badge badge-inprogress">5</span>
+                            </div>
+                            
+                            <div class="subject-card inprogress" data-sub="Data Structures and Algorithms">
+                                <h5>Data Structures and Algorithms</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">75%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar inprogress" data-width="75%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card inprogress" data-sub="Computer Networks">
+                                <h5>Computer Networks</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">60%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar inprogress" data-width="60%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card inprogress" data-sub="Operating Systems">
+                                <h5>Operating Systems</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">45%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar inprogress" data-width="45%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card inprogress" data-sub="Software Testing">
+                                <h5>Software Testing</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">30%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar inprogress" data-width="30%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card inprogress" data-sub="Cybersecurity">
+                                <h5>Cybersecurity</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">25%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar inprogress" data-width="25%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Completed Column -->
+                    <div class="col-md-4">
+                        <div class="subject-column">
+                            <div class="column-header">
+                                <h3>Completed</h3>
+                                <span class="badge badge-completed">2</span>
+                            </div>
+                            
+                            <div class="subject-card completed" data-sub="Database Management Systems">
+                                <h5>Database Management Systems</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">100%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar completed" data-width="100%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card completed" data-sub="Web Technologies">
+                                <h5>Web Technologies</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">100%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar completed" data-width="100%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pending Column -->
+                    <div class="col-md-4">
+                        <div class="subject-column">
+                            <div class="column-header">
+                                <h3>Pending</h3>
+                                <span class="badge badge-pending">3</span>
+                            </div>
+                            
+                            <div class="subject-card pending" data-sub="Software Engineering">
+                                <h5>Software Engineering</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">20%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar pending" data-width="20%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card pending" data-sub="Machine Learning">
+                                <h5>Machine Learning</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">15%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar pending" data-width="15%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                            
+                            <div class="subject-card pending" data-sub="Compiler Design">
+                                <h5>Compiler Design</h5>
+                                <p class="category">Computer Science</p>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Progress</span>
+                                        <span class="progress-value">10%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar pending" data-width="10%"></div>
+                                    </div>
+                                </div>
+                                <span class="click-topics">Click to view topics <i class="bi bi-arrow-right"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Topics Modal -->
+    <div class="modal fade" id="topicsModal" tabindex="-1" aria-labelledby="topicsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="topicsModalLabel">Topics</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <!-- Topics injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample data for subjects and their topics
+        const subjects = [
+            {
+                name: "Data Structures and Algorithms",
+                category: "Computer Science",
+                progress: 75,
+                topics: [
+                    { name: "Arrays and Linked Lists", status: "completed" },
+                    { name: "Stacks and Queues", status: "completed" },
+                    { name: "Graph Algorithms", status: "completed" },
+                    { name: "Trees and Binary Search Trees", status: "in-progress" },
+                    { name: "Dynamic Programming", status: "pending" },
+                    { name: "Greedy Algorithms", status: "pending" }
+                ]
+            },
+            {
+                name: "Computer Networks",
+                category: "Computer Science",
+                progress: 60,
+                topics: [
+                    { name: "OSI Model", status: "completed" },
+                    { name: "TCP/IP Protocol Suite", status: "completed" },
+                    { name: "Network Security", status: "in-progress" },
+                    { name: "Wireless Networks", status: "pending" },
+                    { name: "Network Programming", status: "pending" }
+                ]
+            },
+            {
+                name: "Operating Systems",
+                category: "Computer Science",
+                progress: 45,
+                topics: [
+                    { name: "Process Management", status: "completed" },
+                    { name: "Memory Management", status: "in-progress" },
+                    { name: "File Systems", status: "pending" },
+                    { name: "Synchronization", status: "pending" },
+                    { name: "Deadlocks", status: "pending" }
+                ]
+            },
+            {
+                name: "Software Testing",
+                category: "Computer Science",
+                progress: 30,
+                topics: [
+                    { name: "Testing Fundamentals", status: "completed" },
+                    { name: "Test Levels", status: "in-progress" },
+                    { name: "Test Techniques", status: "pending" },
+                    { name: "Test Management", status: "pending" },
+                    { name: "Automation Testing", status: "pending" }
+                ]
+            },
+            {
+                name: "Cybersecurity",
+                category: "Computer Science",
+                progress: 25,
+                topics: [
+                    { name: "Security Fundamentals", status: "completed" },
+                    { name: "Cryptography", status: "in-progress" },
+                    { name: "Network Security", status: "pending" },
+                    { name: "Application Security", status: "pending" },
+                    { name: "Security Policies", status: "pending" }
+                ]
+            },
+            {
+                name: "Database Management Systems",
+                category: "Computer Science",
+                progress: 100,
+                topics: [
+                    { name: "Database Design", status: "completed" },
+                    { name: "SQL", status: "completed" },
+                    { name: "Normalization", status: "completed" },
+                    { name: "Transactions", status: "completed" },
+                    { name: "NoSQL Databases", status: "completed" }
+                ]
+            },
+            {
+                name: "Web Technologies",
+                category: "Computer Science",
+                progress: 100,
+                topics: [
+                    { name: "HTML/CSS", status: "completed" },
+                    { name: "JavaScript", status: "completed" },
+                    { name: "Frontend Frameworks", status: "completed" },
+                    { name: "Backend Development", status: "completed" },
+                    { name: "Web APIs", status: "completed" }
+                ]
+            },
+            {
+                name: "Software Engineering",
+                category: "Computer Science",
+                progress: 20,
+                topics: [
+                    { name: "Software Process Models", status: "completed" },
+                    { name: "Requirements Engineering", status: "in-progress" },
+                    { name: "Software Design", status: "pending" },
+                    { name: "Software Construction", status: "pending" },
+                    { name: "Software Maintenance", status: "pending" }
+                ]
+            },
+            {
+                name: "Machine Learning",
+                category: "Computer Science",
+                progress: 15,
+                topics: [
+                    { name: "Introduction to ML", status: "completed" },
+                    { name: "Supervised Learning", status: "in-progress" },
+                    { name: "Unsupervised Learning", status: "pending" },
+                    { name: "Neural Networks", status: "pending" },
+                    { name: "Deep Learning", status: "pending" }
+                ]
+            },
+            {
+                name: "Compiler Design",
+                category: "Computer Science",
+                progress: 10,
+                topics: [
+                    { name: "Introduction to Compilers", status: "completed" },
+                    { name: "Lexical Analysis", status: "in-progress" },
+                    { name: "Syntax Analysis", status: "pending" },
+                    { name: "Semantic Analysis", status: "pending" },
+                    { name: "Code Generation", status: "pending" }
+                ]
+            }
+        ];
+
+        // Initialize modal once
+        let topicsModal = null;
+        let modalBody = document.getElementById('modalBody');
+
+        // Function to show modal with subject details
+        function showSubjectDetails(subjectName) {
+            const subject = subjects.find(s => s.name === subjectName);
+            
+            if (!subject) return;
+            
+            let completedCount = subject.topics.filter(t => t.status === 'completed').length;
+            let inProgressCount = subject.topics.filter(t => t.status === 'in-progress').length;
+            let pendingCount = subject.topics.filter(t => t.status === 'pending').length;
+
+            let topicsHTML = '';
+            subject.topics.forEach(t => {
+                let statusClass = t.status.replace('-', '-');
+                topicsHTML += `
+                    <div class="topic-card ${statusClass}">
+                        <strong>${t.name}</strong>
+                        <span class="status-badge ${statusClass}">${t.status.charAt(0).toUpperCase() + t.status.slice(1)}</span>
+                    </div>
+                `;
+            });
+
+            modalBody.innerHTML = `
+                <h4>${subject.name}</h4>
+                <p class="text-muted">${subject.category}</p>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>Overall Progress</span>
+                        <span class="progress-value">${subject.progress}%</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: ${subject.progress}%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-4 mt-3">
+                    <div>
+                        <span class="badge bg-success">Completed: ${completedCount}</span>
+                    </div>
+                    <div>
+                        <span class="badge bg-primary">In Progress: ${inProgressCount}</span>
+                    </div>
+                    <div>
+                        <span class="badge bg-warning">Pending: ${pendingCount}</span>
+                    </div>
+                </div>
+                
+                <hr/>
+                <h5 class="mb-3">Topics to Study</h5>
+                ${topicsHTML}
+            `;
+            
+            // Initialize modal if not already done
+            if (!topicsModal) {
+                topicsModal = new bootstrap.Modal(document.getElementById('topicsModal'));
+            }
+            
+            topicsModal.show();
+        }
+
+        // Add event listeners to subject cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const subjectCards = document.querySelectorAll('.subject-card');
+            
+            subjectCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const subjectName = this.getAttribute('data-sub');
+                    showSubjectDetails(subjectName);
+                });
+            });
+
+            // Animate progress bars when page loads
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                if (width) {
+                    // Set initial width to 0
+                    bar.style.width = '0';
+                    
+                    // Animate to target width after a short delay
+                    setTimeout(() => { 
+                        bar.style.width = width; 
+                    }, 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Study Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    :root {
+        --primary: #6366f1;
+        --secondary: #8b5cf6;
+        --success: #10b981;
+        --info: #3b82f6;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --light: #f8fafc;
+        --dark: #1e293b;
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+        color: var(--dark);
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0 20px;
+        position: relative;
+        z-index: 5;
+    }
+
+    /* Navbar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px 40px;
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        min-height: 80px;
+    }
+
+    .logo {
+        font-size: 1.7em;
+        font-weight: 600;
+        color: #6366f1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: scale(1.05);
+        text-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    }
+
+    .logo i {
+        font-size: 1.4em;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 25px;
+    }
+
+    .nav-links a {
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 12px 18px;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
+        font-size: 1.05em;
+    }
+
+    .nav-links a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .nav-links a:hover::before {
+        left: 100%;
+    }
+
+    .nav-links a:hover {
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        transform: translateY(-3px);
+    }
+
+    .nav-links a i {
+        transition: all 0.3s ease;
+        font-size: 1.1em;
+    }
+
+    .nav-links a:hover i {
+        transform: rotate(10deg) scale(1.2);
+    }
+
+    /* Flash messages */
+    .flash {
+        padding: 12px 18px;
+        border-radius: 10px;
+        margin: 20px auto;
+        width: 90%;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.05em;
+        animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .flash.success {
+        background-color: rgba(76, 175, 80, 0.9);
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    }
+
+    .flash.error {
+        background-color: rgba(244, 67, 54, 0.9);
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+    }
+
+    /* Page content animation */
+    main {
+        animation: fadeIn 0.8s ease-out;
+        padding-top: 20px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Welcome Section */
+    .welcome {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    .welcome-left {
+        flex: 1;
+        max-width: 60%;
+    }
+
+    .welcome-left h1 {
+        font-size: 3.2em;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .welcome-left h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 80px;
+        height: 4px;
+        background: var(--gradient);
+        border-radius: 2px;
+        animation: expandLine 1.5s ease-out forwards;
+    }
+
+    @keyframes expandLine {
+        from { width: 0; }
+        to { width: 80px; }
+    }
+
+    .welcome-left p {
+        font-size: 1.4em;
+        color: #64748b;
+        margin-top: 20px;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+
+    .user-info:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2em;
+        font-weight: 600;
+        margin-right: 20px;
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .user-details h3 {
+        font-size: 1.4em;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: var(--dark);
+    }
+
+    .user-details p {
+        font-size: 1em;
+        color: #64748b;
+        margin: 0;
+    }
+
+    .user-status {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: var(--success);
+        border-radius: 50%;
+        margin-left: 10px;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Stats Cards */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+        border-top: 5px solid;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 180px;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.6s;
+    }
+
+    .stat-card:hover::before {
+        transform: translateX(100%);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-15px) rotateX(5deg);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .stat-card h2 {
+        font-size: 1.1em;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: #64748b;
+    }
+
+    .stat-card p {
+        font-size: 2.8em;
+        font-weight: 700;
+        margin-bottom: 10px;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .stat-card small {
+        color: #94a3b8;
+        font-size: 0.9em;
+        display: block;
+        margin-top: 10px;
+    }
+
+    .stat-card i {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 2.8em;
+        opacity: 0.15;
+        color: var(--primary);
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover i {
+        opacity: 0.3;
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Progress Card Specific */
+    .stat-card.progress {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .progress-container {
+        width: 100%;
+        margin: 15px 0;
+        position: relative;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 28px;
+        background: #e2e8f0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--gradient);
+        width: 0;
+        border-radius: 20px;
+        transition: width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 15px;
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    }
+
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-image: linear-gradient(
+            -45deg,
+            rgba(255, 255, 255, .2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, .2) 50%,
+            rgba(255, 255, 255, .2) 75%,
+            transparent 75%,
+            transparent
+        );
+        background-size: 50px 50px;
+        animation: move 2s linear infinite;
+    }
+
+    .progress-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .progress-label {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: var(--dark);
+    }
+
+    .progress-value {
+        font-size: 1.1em;
+        font-weight: 500;
+        color: #64748b;
+    }
+
+    /* Color accents */
+    .stat-card.total { border-top-color: #3b82f6; }
+    .stat-card.completed { border-top-color: #10b981; }
+    .stat-card.in-progress { border-top-color: #8b5cf6; }
+    .stat-card.progress { border-top-color: #f59e0b; }
+
+    /* Task Cards */
+    .schedule {
+        margin-bottom: 40px;
+    }
+
+    .schedule h2 {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        font-size: 1.8em;
+        font-weight: 600;
+        color: var(--dark);
+        animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        opacity: 0;
+        position: relative;
+    }
+
+    .schedule h2::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--gradient);
+        border-radius: 2px;
+    }
+
+    .schedule h2 i {
+        color: var(--primary);
+        font-size: 1.2em;
+    }
+
+    .task-card {
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 20px;
+        color: var(--dark);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        border-left: 6px solid;
+        position: relative;
+        overflow: hidden;
+        transform-style: preserve-3d;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0;
+    }
+
+    .task-card:nth-child(2) { animation-delay: 0.7s; }
+    .task-card:nth-child(3) { animation-delay: 0.8s; }
+    .task-card:nth-child(4) { animation-delay: 0.9s; }
+    .task-card:nth-child(5) { animation-delay: 1.0s; }
+
+    .task-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 120px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        transform: translate(40px, -40px);
+        transition: all 0.5s ease;
+    }
+
+    .task-card:hover::before {
+        transform: translate(20px, -20px) scale(1.2);
+    }
+
+    .task-card:hover {
+        transform: translateY(-10px) rotateX(5deg);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    }
+
+    .task-card.completed { 
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border-color: var(--success);
+    }
+    .task-card.in-progress { 
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        border-color: var(--info);
+    }
+    .task-card.pending { 
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-color: var(--warning);
+    }
+
+    .task-card h3 { 
+        margin-bottom: 10px;
+        font-size: 1.4em;
+        font-weight: 600;
+        position: relative;
+        z-index: 1;
+    }
+    .task-card h4 { 
+        margin-bottom: 15px;
+        font-weight: 500;
+        color: #4b5563;
+        font-size: 1.1em;
+        position: relative;
+        z-index: 1;
+    }
+    .task-card p { 
+        margin-bottom: 10px;
+        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+    }
+
+    .task-card p i {
+        margin-right: 8px;
+        color: var(--primary);
+    }
+
+    .task-progress {
+        font-weight: 500;
+        margin-top: 15px;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .task-progress .progress-info {
+        flex: 1;
+    }
+
+    .task-progress .progress-inner {
+        height: 14px;
+        background: var(--gradient);
+        border-radius: 10px;
+        width: 0;
+        transition: width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+        margin-top: 8px;
+    }
+
+    .task-progress .progress-inner::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-image: linear-gradient(
+            -45deg,
+            rgba(255, 255, 255, .3) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, .3) 50%,
+            rgba(255, 255, 255, .3) 75%,
+            transparent 75%,
+            transparent
+        );
+        background-size: 30px 30px;
+        animation: move 1.5s linear infinite;
+    }
+
+    .task-progress .progress-percentage {
+        font-weight: 600;
+        font-size: 1.1em;
+        margin-left: 15px;
+        min-width: 50px;
+        text-align: right;
+    }
+
+    .task-status {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 500;
+        margin-left: 10px;
+    }
+
+    .task-status.completed {
+        background-color: var(--success);
+        color: white;
+    }
+
+    .task-status.in-progress {
+        background-color: var(--info);
+        color: white;
+    }
+
+    .task-status.pending {
+        background-color: var(--warning);
+        color: white;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes move {
+        0% { background-position: 0 0; }
+        100% { background-position: 30px 30px; }
+    }
+
+    /* Animated Background */
+    .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .bg-shapes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(99, 102, 241, 0.05);
+        animation: floatShapes 20s infinite ease-in-out;
+    }
+
+    .bg-shape:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -150px;
+        animation-delay: 0s;
+        animation-duration: 25s;
+    }
+
+    .bg-shape:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        right: -100px;
+        animation-delay: 2s;
+        animation-duration: 20s;
+    }
+
+    .bg-shape:nth-child(3) {
+        width: 150px;
+        height: 150px;
+        bottom: -75px;
+        left: 30%;
+        animation-delay: 4s;
+        animation-duration: 30s;
+    }
+
+    .bg-shape:nth-child(4) {
+        width: 250px;
+        height: 250px;
+        bottom: -125px;
+        right: 20%;
+        animation-delay: 6s;
+        animation-duration: 35s;
+    }
+
+    @keyframes floatShapes {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        50% {
+            transform: translateY(-30px) rotate(10deg);
+        }
+    }
+
+    .bg-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+        z-index: -1;
+    }
+
+    /* Modal */
+    .modal-content {
+        border-radius: 16px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+        background: var(--gradient);
+        color: white;
+        border: none;
+        padding: 20px 25px;
+    }
+
+    .modal-header h5 {
+        font-weight: 600;
+    }
+
+    .modal-body {
+        padding: 25px;
+    }
+
+    .modal-body .task-card {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        margin-bottom: 15px;
+    }
+
+    /* Responsive */
+    @media(max-width:768px) {
+        .navbar {
+            flex-direction: column;
+            padding: 20px;
+            min-height: auto;
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        .nav-links {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .nav-links a {
+            padding: 10px 15px;
+            font-size: 0.95em;
+        }
+        
+        .welcome {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .welcome-left {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .user-info {
+            width: 100%;
+        }
+        
+        .stats { grid-template-columns: 1fr; }
+        .welcome h1 { font-size: 2.2em; }
+        .stat-card p { font-size: 2em; }
+        .task-card { padding: 20px; }
+        .task-card h3 { font-size: 1.2em; }
+        .task-card h4 { font-size: 1em; }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-book-open"></i>
+            Study Planner
+        </div>
+        <nav class="nav-links">
+            <a href="#">
+                <i class="fas fa-home"></i>
+                Home
+            </a>
+            <a href="categories.html">
+                <i class="fas fa-th-large"></i>
+                Categories
+            </a>
+            <a href="about.html">
+                <i class="fas fa-info-circle"></i>
+                About Us
+            </a>
+            <a href="history.html">
+                <i class="fas fa-history"></i>
+                History
+            </a>
+            <a href="landing.html">
+                <i class="fas fa-user"></i>
+                Logout
+            </a>
+        </nav>
+    </header>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="bg-grid"></div>
+        <div class="bg-shapes">
+            <div class="bg-shape"></div>
+            <div class="bg-shape"></div>
+            <div class="bg-shape"></div>
+            <div class="bg-shape"></div>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+
+            <!-- Welcome Section -->
+            <div class="welcome">
+                <div class="welcome-left">
+                    <h1>Welcome Back</h1>
+                    <p>Let's make today productive!</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">J</div>
+                    <div class="user-details">
+                        <h3>John Doe</h3>
+                        <p>Online<span class="user-status"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats">
+                <div class="stat-card total" data-type="total">
+                    <i class="fas fa-tasks"></i>
+                    <h2>Total Tasks</h2>
+                    <p>7</p>
+                    <small>Click to view all</small>
+                </div>
+                <div class="stat-card completed" data-type="completed">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Completed</h2>
+                    <p>2</p>
+                    <small>Click to view all</small>
+                </div>
+                <div class="stat-card in-progress" data-type="in-progress">
+                    <i class="fas fa-spinner"></i>
+                    <h2>In Progress</h2>
+                    <p>2</p>
+                    <small>Click to view all</small>
+                </div>
+                <div class="stat-card progress" data-type="pending">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Overall Progress</h2>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 29%;">29%</div>
+                        </div>
+                        <div class="progress-stats">
+                            <span class="progress-label">Pending: 3</span>
+                            <span class="progress-value">7 tasks total</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Schedule -->
+            <div class="schedule">
+                <h2><i class="fas fa-calendar-day"></i> Today's Schedule</h2>
+                
+                <div class="task-card in-progress">
+                    <h3>Complete Binary Search Tree Assignment</h3>
+                    <h4>Data Structures and Algorithms</h4>
+                    <p>Implement BST operations</p>
+                    <p><i class="far fa-clock"></i> <strong>Time:</strong> 9:00 AM - 10:30 AM</p>
+                    <p class="task-progress">
+                        <div class="progress-info">
+                            <i class="fas fa-tasks"></i> <strong>Subject Progress:</strong>
+                            <div class="progress-inner" style="width: 75%;"></div>
+                        </div>
+                        <span class="progress-percentage">75%</span>
+                        <span class="task-status in-progress">in progress</span>
+                    </p>
+                </div>
+                
+                <div class="task-card pending">
+                    <h3>Study TCP/IP Protocol</h3>
+                    <h4>Computer Networks</h4>
+                    <p>Read chapters 5-7</p>
+                    <p><i class="far fa-clock"></i> <strong>Time:</strong> 11:00 AM - 12:30 PM</p>
+                    <p class="task-progress">
+                        <div class="progress-info">
+                            <i class="fas fa-tasks"></i> <strong>Subject Progress:</strong>
+                            <div class="progress-inner" style="width: 60%;"></div>
+                        </div>
+                        <span class="progress-percentage">60%</span>
+                        <span class="task-status pending">pending</span>
+                    </p>
+                </div>
+                
+                <div class="task-card in-progress">
+                    <h3>Process Scheduling Lab</h3>
+                    <h4>Operating Systems</h4>
+                    <p>Complete FCFS and SJF algorithms</p>
+                    <p><i class="far fa-clock"></i> <strong>Time:</strong> 2:00 PM - 3:30 PM</p>
+                    <p class="task-progress">
+                        <div class="progress-info">
+                            <i class="fas fa-tasks"></i> <strong>Subject Progress:</strong>
+                            <div class="progress-inner" style="width: 45%;"></div>
+                        </div>
+                        <span class="progress-percentage">45%</span>
+                        <span class="task-status in-progress">in progress</span>
+                    </p>
+                </div>
+                
+                <div class="task-card completed">
+                    <h3>AI Assignment - Search Algorithms</h3>
+                    <h4>Artificial Intelligence</h4>
+                    <p>Implement A* algorithm</p>
+                    <p><i class="far fa-clock"></i> <strong>Time:</strong> 4:00 PM - 5:30 PM</p>
+                    <p class="task-progress">
+                        <div class="progress-info">
+                            <i class="fas fa-tasks"></i> <strong>Subject Progress:</strong>
+                            <div class="progress-inner" style="width: 55%;"></div>
+                        </div>
+                        <span class="progress-percentage">55%</span>
+                        <span class="task-status completed">completed</span>
+                    </p>
+                </div>
+                
+                <div class="task-card pending">
+                    <h3>Study CPU Pipelining</h3>
+                    <h4>Computer Architecture</h4>
+                    <p>Review lecture notes</p>
+                    <p><i class="far fa-clock"></i> <strong>Time:</strong> 6:00 PM - 7:00 PM</p>
+                    <p class="task-progress">
+                        <div class="progress-info">
+                            <i class="fas fa-tasks"></i> <strong>Subject Progress:</strong>
+                            <div class="progress-inner" style="width: 70%;"></div>
+                        </div>
+                        <span class="progress-percentage">70%</span>
+                        <span class="task-status pending">pending</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="taskModalLabel">Tasks</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <!-- Tasks will be injected here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    // Define tasks data
+    const tasks = [
+        {
+            title: "Complete Binary Search Tree Assignment",
+            subject: "Data Structures and Algorithms",
+            desc: "Implement BST operations",
+            time: "9:00 AM - 10:30 AM",
+            progress: "75%",
+            status: "in progress"
+        },
+        {
+            title: "Study TCP/IP Protocol",
+            subject: "Computer Networks",
+            desc: "Read chapters 5-7",
+            time: "11:00 AM - 12:30 PM",
+            progress: "60%",
+            status: "pending"
+        },
+        {
+            title: "Process Scheduling Lab",
+            subject: "Operating Systems",
+            desc: "Complete FCFS and SJF algorithms",
+            time: "2:00 PM - 3:30 PM",
+            progress: "45%",
+            status: "in progress"
+        },
+        {
+            title: "AI Assignment - Search Algorithms",
+            subject: "Artificial Intelligence",
+            desc: "Implement A* algorithm",
+            time: "4:00 PM - 5:30 PM",
+            progress: "55%",
+            status: "completed"
+        },
+        {
+            title: "Study CPU Pipelining",
+            subject: "Computer Architecture",
+            desc: "Review lecture notes",
+            time: "6:00 PM - 7:00 PM",
+            progress: "70%",
+            status: "pending"
+        }
+    ];
+
+    window.addEventListener('load', () => {
+        // Animate task progress bars
+        const progressBars = document.querySelectorAll('.progress-inner');
+        progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => { 
+                bar.style.width = width; 
+            }, 300);
+        });
+
+        // Animate main progress bar
+        const mainProgress = document.querySelector('.progress-fill');
+        const mainWidth = mainProgress.style.width;
+        mainProgress.style.width = '0';
+        setTimeout(() => { 
+            mainProgress.style.width = mainWidth; 
+        }, 300);
+    });
+
+    // Modal functionality
+    const modalBody = document.getElementById('modalBody');
+    const taskModal = new bootstrap.Modal(document.getElementById('taskModal'));
+
+    document.querySelectorAll('.stat-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const type = card.getAttribute('data-type');
+            modalBody.innerHTML = ''; // clear previous tasks
+
+            let filteredTasks = [];
+            if (type === 'total') filteredTasks = tasks;
+            else if (type === 'completed') filteredTasks = tasks.filter(t => t.status === 'completed');
+            else if (type === 'in-progress') filteredTasks = tasks.filter(t => t.status === 'in progress');
+            else if (type === 'pending') filteredTasks = tasks.filter(t => t.status === 'pending');
+
+            filteredTasks.forEach(task => {
+                modalBody.innerHTML += `
+                    <div class="task-card ${task.status.replace(' ','-')} mb-3">
+                        <h5>${task.title}</h5>
+                        <h6>${task.subject}</h6>
+                        <p>${task.desc}</p>
+                        <p><i class="far fa-clock"></i> <strong>Time:</strong> ${task.time}</p>
+                        <p><i class="fas fa-info-circle"></i> <strong>Status:</strong> ${task.status}</p>
+                        <p><i class="fas fa-chart-bar"></i> <strong>Progress:</strong> ${task.progress}</p>
+                    </div>
+                `;
+            });
+
+            taskModal.show();
+        });
+    });
+    </script>
+</body>
+</html>
